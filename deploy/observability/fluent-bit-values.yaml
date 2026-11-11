@@ -5,10 +5,21 @@ extraVolumes:
   - name: sov-scripts
     configMap:
       name: fluent-bit-scripts
+  - name: sov-outputs
+    configMap:
+      name: fluent-bit-outputs          # deploy/generated/fluent-bit: one Loki output per authority
 extraVolumeMounts:
   - name: sov-scripts
     mountPath: /fluent-bit/scripts/sov
     readOnly: true
+  - name: sov-outputs
+    mountPath: /fluent-bit/etc/sov
+    readOnly: true
+env:
+  - name: LOKI_HOST
+    value: loki-gateway.observability.svc
+  - name: LOKI_PORT
+    value: "80"
 config:
   inputs: |
     [INPUT]
@@ -36,19 +47,11 @@ config:
         Match   kube.*
         script  /fluent-bit/scripts/sov/tenant.lua
         call    set_tenant
-    # Loki's tenant id is read once per chunk. Re-tag by tenant so no chunk mixes two authorities.
+    # Re-tag by authority; each authority has its own Loki output with a fixed tenant id.
     [FILTER]
         Name          rewrite_tag
         Match         kube.*
         Rule          $sov_tenant ^(.+)$ sov.$1 false
         Emitter_Name  sov_by_tenant
   outputs: |
-    [OUTPUT]
-        Name            loki
-        Match           sov.*
-        Host            loki-gateway.observability.svc
-        Port            80
-        tenant_id_key   sov_tenant
-        remove_keys     sov_tenant
-        labels          job=fluent-bit, namespace=$kubernetes['namespace_name'], container=$kubernetes['container_name']
-        line_format     json
+    @INCLUDE /fluent-bit/etc/sov/outputs.conf

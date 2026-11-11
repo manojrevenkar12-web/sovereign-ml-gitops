@@ -1,7 +1,8 @@
 -- Sets the Loki tenant from the Kubernetes namespace: sov-<authority> -> <authority>, anything else -> platform.
 -- In the compose e2e there is no Kubernetes metadata; records carry "tenant" themselves.
--- A rewrite_tag filter then re-tags each record sov.<tenant>, because Fluent Bit's Loki output takes the
--- tenant id once per chunk: without it, two authorities' lines in one chunk land in one tenant.
+-- A rewrite_tag filter then re-tags each record sov.<tenant>, and each authority has its own Loki output with
+-- a fixed tenant id (deploy/generated/fluent-bit). tenant_id_key is not used: the live probe showed lines
+-- landing in another authority's tenant with it.
 function set_tenant(tag, timestamp, record)
   local ns = record["kubernetes"] and record["kubernetes"]["namespace_name"]
   local tenant = record["tenant"]

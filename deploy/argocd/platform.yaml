@@ -37,6 +37,11 @@ spec:
     - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
       targetRevision: main
       path: deploy/observability/fluent-bit-scripts      # ConfigMap with the generated redact.lua
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      path: deploy/generated/fluent-bit                  # ConfigMap with one Loki output per authority
+      directory:
+        include: outputs-configmap.yaml
   destination: {server: https://kubernetes.default.svc, namespace: observability}
   syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true]}
 ---
@@ -56,5 +61,10 @@ spec:
     - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
       targetRevision: main
       ref: values
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      path: deploy/generated/grafana                     # one Loki data source per authority
+      directory:
+        include: datasources-configmap.yaml
   destination: {server: https://kubernetes.default.svc, namespace: observability}
   syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true]}

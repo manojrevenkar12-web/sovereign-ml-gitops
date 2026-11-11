@@ -1,4 +1,8 @@
 # Same filters as deploy/observability/fluent-bit-values.yaml, with an HTTP input instead of container logs.
+# scripts/scaffold.py adds one Loki output per authority and writes deploy/generated/fluent-bit/e2e.yaml.
+env:
+  LOKI_HOST: loki
+  LOKI_PORT: "3100"
 service:
   flush: 1
   log_level: info
@@ -17,18 +21,8 @@ pipeline:
       match: e2e
       script: /fluent-bit/scripts/tenant.lua
       call: set_tenant
-    # The Loki output reads tenant_id_key once per chunk, not per record. Re-tag by tenant so that a chunk
-    # never holds two authorities' lines (the live probe caught exactly that).
+    # Re-tag by authority; each authority has its own Loki output with a fixed tenant id.
     - name: rewrite_tag
       match: e2e
       rule: $sov_tenant ^(.+)$ sov.$1 false
       emitter_name: sov_by_tenant
-  outputs:
-    - name: loki
-      match: "sov.*"
-      host: loki
-      port: 3100
-      tenant_id_key: sov_tenant
-      remove_keys: sov_tenant
-      labels: job=e2e
-      line_format: json

@@ -35,7 +35,7 @@ services:
     command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/sov.yaml"]
     ports: ["9880:9880"]
     volumes:
-      - ./fluent-bit.yaml:/fluent-bit/etc/sov.yaml:ro
+      - ../generated/fluent-bit/e2e.yaml:/fluent-bit/etc/sov.yaml:ro
       - ../fluent-bit/redact.lua:/fluent-bit/scripts/redact.lua:ro
       - ../fluent-bit/tenant.lua:/fluent-bit/scripts/tenant.lua:ro
     depends_on: [loki]

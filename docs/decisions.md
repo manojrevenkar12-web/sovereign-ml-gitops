@@ -53,9 +53,9 @@ morning peak.
 misconfiguration away from crossing authorities. Separate realms give separate issuers, and the router checks
 the issuer before anything else.
 
-**Fluent Bit re-tags every record by authority before the Loki output.** Found by the live probe on the first
-CI run: the Loki output takes `tenant_id_key` from a chunk, not from each record. On a node, chunks follow
-container log files and so belong to one namespace. Any input that mixes authorities (an HTTP or forward
-input, a shared sidecar) would put one authority's lines into another's tenant. `rewrite_tag` makes the
-tenant part of the tag, so a chunk can only hold one authority. The static isolation probes could not see
-this, because the configuration was correct on paper.
+**One Loki output per authority with a fixed tenant id, not `tenant_id_key`.** Found by the live probe:
+with `tenant_id_key` (the documented way to set the tenant from a record), a Nordhafen line was stored under
+Weidenbach. Re-tagging records by authority with `rewrite_tag` before that output did not change the result.
+Now `scripts/scaffold.py` writes one output per authority, matched on the tag `sov.<authority>`, with a
+static `tenant_id`. A record can only reach the output for its own tag. The static isolation probes could
+not see the leak: the configuration was correct on paper.
