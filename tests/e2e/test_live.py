@@ -223,7 +223,7 @@ def test_personal_data_never_reaches_loki_and_tenants_stay_apart():
             f"{LOKI}/loki/api/v1/query_range",
             headers={"X-Scope-OrgID": org},
             params={
-                "query": f'{{job="e2e"}} |= "{marker}"',
+                "query": f'{{job="sov"}} |= "{marker}"',
                 "limit": 100,
                 "start": str(int((time.time() - 600) * 1e9)),
                 "end": str(int((time.time() + 60) * 1e9)),
