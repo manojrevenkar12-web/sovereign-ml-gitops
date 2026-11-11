@@ -75,6 +75,11 @@ See [What CI proves](#what-ci-proves).
 
   The control that follows is a merge-request check: a new service's sample log lines run through the
   filter before the service ships ([docs/heldout.md](docs/heldout.md)).
+- **The live probe caught a cross-authority log leak that no static check could.** On the first CI run,
+  a Nordhafen line arrived in Weidenbach's Loki tenant, already redacted. Fluent Bit's Loki output reads
+  `tenant_id_key` once per chunk, not once per record, so two authorities' lines in one chunk land in one
+  tenant. A `rewrite_tag` filter now re-tags every record `sov.<authority>` before the output, and the probe
+  passes.
 
 ## How it fits together
 

@@ -36,10 +36,16 @@ config:
         Match   kube.*
         script  /fluent-bit/scripts/sov/tenant.lua
         call    set_tenant
+    # Loki's tenant id is read once per chunk. Re-tag by tenant so no chunk mixes two authorities.
+    [FILTER]
+        Name          rewrite_tag
+        Match         kube.*
+        Rule          $sov_tenant ^(.+)$ sov.$1 false
+        Emitter_Name  sov_by_tenant
   outputs: |
     [OUTPUT]
         Name            loki
-        Match           kube.*
+        Match           sov.*
         Host            loki-gateway.observability.svc
         Port            80
         tenant_id_key   sov_tenant
