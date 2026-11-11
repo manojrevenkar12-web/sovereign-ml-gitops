@@ -244,6 +244,10 @@ def test_personal_data_never_reaches_loki_and_tenants_stay_apart():
             visible = any(marker in s and ("<name>" in s or "<phone>" in s) and b in s for s in seen[a])
             record("loki", a, b, visible, a == b)
     nord, weid = seen["stadt-nordhafen"], seen["stadt-weidenbach"]
+    if not (nord and weid):
+        for org in ALL:
+            r = httpx.get(f"{LOKI}/loki/api/v1/labels", headers={"X-Scope-OrgID": org})
+            print("labels", org, r.status_code, r.text[:300])
     assert nord and weid, seen
     assert seen["kreis-lindenau"] == []
     for s in nord + weid:

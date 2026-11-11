@@ -86,7 +86,7 @@ jobs:
       - run: docker build -t sov-api:e2e .
       - run: python scripts/e2e_env.py "$RUNNER_TEMP/tampered" >> "$GITHUB_ENV"
       - run: docker compose -f deploy/compose/e2e.yaml up -d
-      - run: pytest -m e2e tests/e2e -v
+      - run: pytest -m e2e tests/e2e -v -s
         env:
           E2E_REPORT: build/e2e.json
       - name: Probe summary

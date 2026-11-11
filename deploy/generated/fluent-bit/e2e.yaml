@@ -57,3 +57,6 @@ pipeline:
     remove_keys: sov_tenant
     labels: job=fluent-bit
     line_format: json
+  - name: stdout
+    match: '*'
+    format: json_lines
