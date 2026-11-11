@@ -1,0 +1,1021 @@
+{
+  "rows": [
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9573333333333334,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.9433962264150944,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9390444810543658,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9586666666666667,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.9433962264150944,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 386.7 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9341021416803954,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -78.1 pts"
+      ],
+      "true_accuracy": 0.17133333333333334,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.9811320754716981,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -78.3 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.17462932454695224,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "stale",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9493333333333334,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.9056603773584906,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -1.3 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9308072487644151,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -27.6 pts",
+        "true ordnungsamt recall 81%"
+      ],
+      "true_accuracy": 0.676,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.8113207547169812,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -32.5 pts (limit -1.0); ordnungsamt recall 73% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6359143327841845,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "kreis-lindenau",
+      "candidate": "missing-urgent",
+      "bad": true,
+      "why_bad": [
+        "true ordnungsamt recall 62%"
+      ],
+      "true_accuracy": 0.944,
+      "champion_true_accuracy": 0.952,
+      "true_critical_recall": 0.6226415094339622,
+      "gate": false,
+      "gate_summary": "hold: contract: too few examples of critical departments ordnungsamt: 17 of 30",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9308072487644151,
+      "champion_val_accuracy": 0.9275123558484349
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9626666666666667,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.9721115537848606,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9366666666666666,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9573333333333334,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.9322709163346613,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 352.5 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.94,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -55.1 pts",
+        "true ordnungsamt recall 30%"
+      ],
+      "true_accuracy": 0.31533333333333335,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.30278884462151395,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -57.3 pts (limit -1.0); ordnungsamt recall 30% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.31666666666666665,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "stale",
+      "bad": true,
+      "why_bad": [
+        "true ordnungsamt recall 65%"
+      ],
+      "true_accuracy": 0.9066666666666666,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.649402390438247,
+      "gate": false,
+      "gate_summary": "hold: ordnungsamt recall 64% is below the 85% floor",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.88,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -20.3 pts",
+        "true ordnungsamt recall 68%"
+      ],
+      "true_accuracy": 0.6633333333333333,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.6772908366533864,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -25.7 pts (limit -1.0); ordnungsamt recall 69% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6316666666666667,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-nordhafen",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.946,
+      "champion_true_accuracy": 0.8666666666666667,
+      "true_critical_recall": 0.8924302788844621,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9233333333333333,
+      "champion_val_accuracy": 0.8516666666666667
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "refresh",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -1.8 pts"
+      ],
+      "true_accuracy": 0.9326666666666666,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.9506172839506173,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -3.7 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.9083333333333333,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model",
+        "true accuracy -1.2 pts"
+      ],
+      "true_accuracy": 0.9386666666666666,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.9259259259259259,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 385.0 personal-data finds per 1,000 inquiries; accuracy vs champion could be -3.8 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.9083333333333333,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -74.8 pts",
+        "true ordnungsamt recall 28%"
+      ],
+      "true_accuracy": 0.20266666666666666,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.2777777777777778,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -79.7 pts (limit -1.0); ordnungsamt recall 32% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.16,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "stale",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -3.4 pts"
+      ],
+      "true_accuracy": 0.9166666666666666,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.8888888888888888,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -5.8 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.89,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -23.7 pts",
+        "true ordnungsamt recall 71%"
+      ],
+      "true_accuracy": 0.714,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.7098765432098766,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -23.8 pts (limit -1.0); ordnungsamt recall 75% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.72,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 11,
+      "tenant": "stadt-weidenbach",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.946,
+      "champion_true_accuracy": 0.9506666666666667,
+      "true_critical_recall": 0.9444444444444444,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -1.8 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.925,
+      "champion_val_accuracy": 0.9283333333333333
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9366666666666666,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.9782608695652174,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -1.3 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9187396351575456,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9393333333333334,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.9565217391304348,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 394.2 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9303482587064676,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -74.5 pts"
+      ],
+      "true_accuracy": 0.16733333333333333,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.9782608695652174,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -77.8 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.1625207296849088,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "stale",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9593333333333334,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.9782608695652174,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9270315091210614,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -22.6 pts",
+        "true ordnungsamt recall 74%"
+      ],
+      "true_accuracy": 0.686,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.7391304347826086,
+      "gate": false,
+      "gate_summary": "hold: contract: too few examples of critical departments ordnungsamt: 27 of 30",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6799336650082919,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "kreis-lindenau",
+      "candidate": "missing-urgent",
+      "bad": true,
+      "why_bad": [
+        "true ordnungsamt recall 59%"
+      ],
+      "true_accuracy": 0.93,
+      "champion_true_accuracy": 0.912,
+      "true_critical_recall": 0.5869565217391305,
+      "gate": false,
+      "gate_summary": "hold: contract: too few examples of critical departments ordnungsamt: 17 of 30",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9154228855721394,
+      "champion_val_accuracy": 0.9104477611940298
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9546666666666667,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.9432314410480349,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9283333333333333,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9453333333333334,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.9344978165938864,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 305.0 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9216666666666666,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -52.7 pts",
+        "true ordnungsamt recall 28%"
+      ],
+      "true_accuracy": 0.36466666666666664,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.2794759825327511,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -58.8 pts (limit -1.0); ordnungsamt recall 23% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.32666666666666666,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "stale",
+      "bad": true,
+      "why_bad": [
+        "true ordnungsamt recall 61%"
+      ],
+      "true_accuracy": 0.8906666666666667,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.6069868995633187,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -2.3 pts (limit -1.0); ordnungsamt recall 66% is below the 85% floor",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.8716666666666667,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -15.7 pts",
+        "true ordnungsamt recall 68%"
+      ],
+      "true_accuracy": 0.7346666666666667,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.6812227074235808,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -18.7 pts (limit -1.0); ordnungsamt recall 65% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.7233333333333334,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-nordhafen",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9506666666666667,
+      "champion_true_accuracy": 0.8913333333333333,
+      "true_critical_recall": 0.9126637554585153,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9133333333333333,
+      "champion_val_accuracy": 0.8766666666666667
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9486666666666667,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.9069767441860465,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9316666666666666,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.938,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.8895348837209303,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 395.0 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9183333333333333,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -31.5 pts"
+      ],
+      "true_accuracy": 0.6166666666666667,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.9534883720930233,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -34.0 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.605,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "stale",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.928,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.9476744186046512,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -3.0 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9016666666666666,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -26.9 pts",
+        "true ordnungsamt recall 80%"
+      ],
+      "true_accuracy": 0.6633333333333333,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.7965116279069767,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -31.0 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6333333333333333,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 23,
+      "tenant": "stadt-weidenbach",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.954,
+      "champion_true_accuracy": 0.932,
+      "true_critical_recall": 0.9011627906976745,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.935,
+      "champion_val_accuracy": 0.91
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9366666666666666,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.9767441860465116,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -3.3 pts (limit -1.0); ordnungsamt recall 77% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.9065573770491804,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model",
+        "true accuracy -12.3 pts"
+      ],
+      "true_accuracy": 0.8133333333333334,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.9534883720930233,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 320.6 personal-data finds per 1,000 inquiries; accuracy vs champion could be -15.3 pts (limit -1.0); ordnungsamt recall 77% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.7950819672131147,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -78.5 pts"
+      ],
+      "true_accuracy": 0.15066666666666667,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.9302325581395349,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -78.2 pts (limit -1.0); ordnungsamt recall 80% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.16885245901639345,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "stale",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9446666666666667,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.9534883720930233,
+      "gate": false,
+      "gate_summary": "hold: ordnungsamt recall 77% is below the 85% floor",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9377049180327869,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -28.6 pts",
+        "true ordnungsamt recall 77%"
+      ],
+      "true_accuracy": 0.65,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.7674418604651163,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -31.1 pts (limit -1.0); ordnungsamt recall 77% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6426229508196721,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "kreis-lindenau",
+      "candidate": "missing-urgent",
+      "bad": true,
+      "why_bad": [
+        "true ordnungsamt recall 84%"
+      ],
+      "true_accuracy": 0.9486666666666667,
+      "champion_true_accuracy": 0.936,
+      "true_critical_recall": 0.8372093023255814,
+      "gate": false,
+      "gate_summary": "hold: contract: too few examples of critical departments ordnungsamt: 22 of 30",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.919672131147541,
+      "champion_val_accuracy": 0.919672131147541
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9346666666666666,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.9829059829059829,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.915,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9586666666666667,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.9743589743589743,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 350.0 personal-data finds per 1,000 inquiries",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9383333333333334,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -54.4 pts",
+        "true ordnungsamt recall 21%"
+      ],
+      "true_accuracy": 0.3506666666666667,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.20512820512820512,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -60.8 pts (limit -1.0); ordnungsamt recall 25% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.2916666666666667,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "stale",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -1.7 pts",
+        "true ordnungsamt recall 62%"
+      ],
+      "true_accuracy": 0.878,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.6239316239316239,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -2.8 pts (limit -1.0); ordnungsamt recall 61% is below the 85% floor",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.8566666666666667,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -19.7 pts",
+        "true ordnungsamt recall 68%"
+      ],
+      "true_accuracy": 0.698,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.6837606837606838,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -25.0 pts (limit -1.0); ordnungsamt recall 74% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.6533333333333333,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-nordhafen",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9633333333333334,
+      "champion_true_accuracy": 0.8946666666666667,
+      "true_critical_recall": 0.9914529914529915,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9383333333333334,
+      "champion_val_accuracy": 0.865
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "refresh",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9573333333333334,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.9629629629629629,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -2.5 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9366666666666666,
+      "champion_val_accuracy": 0.945
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "unredacted",
+      "bad": true,
+      "why_bad": [
+        "personal data in the model"
+      ],
+      "true_accuracy": 0.9493333333333334,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.9691358024691358,
+      "gate": false,
+      "gate_summary": "hold: training set still holds 352.5 personal-data finds per 1,000 inquiries; accuracy vs champion could be -2.8 pts (limit -1.0)",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.9333333333333333,
+      "champion_val_accuracy": 0.945
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "wrong-tenant",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -34.3 pts"
+      ],
+      "true_accuracy": 0.6033333333333334,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.9135802469135802,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -36.5 pts (limit -1.0); ordnungsamt recall 81% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.615,
+      "champion_val_accuracy": 0.945
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "stale",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9633333333333334,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.9691358024691358,
+      "gate": true,
+      "gate_summary": "promote",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9483333333333334,
+      "champion_val_accuracy": 0.945
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "label-noise",
+      "bad": true,
+      "why_bad": [
+        "true accuracy -17.7 pts",
+        "true ordnungsamt recall 78%"
+      ],
+      "true_accuracy": 0.7693333333333333,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.7839506172839507,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -23.8 pts (limit -1.0); ordnungsamt recall 78% is below the 85% floor",
+      "accuracy_only": false,
+      "always": true,
+      "val_accuracy": 0.7383333333333333,
+      "champion_val_accuracy": 0.945
+    },
+    {
+      "seed": 37,
+      "tenant": "stadt-weidenbach",
+      "candidate": "missing-urgent",
+      "bad": false,
+      "why_bad": [],
+      "true_accuracy": 0.9453333333333334,
+      "champion_true_accuracy": 0.9466666666666667,
+      "true_critical_recall": 0.9753086419753086,
+      "gate": false,
+      "gate_summary": "hold: accuracy vs champion could be -1.7 pts (limit -1.0)",
+      "accuracy_only": true,
+      "always": true,
+      "val_accuracy": 0.9433333333333334,
+      "champion_val_accuracy": 0.945
+    }
+  ],
+  "policies": {
+    "gate": {
+      "bad_shipped": 0,
+      "bad_total": 35,
+      "good_held": 8,
+      "good_total": 19,
+      "privacy_breaches_shipped": 0
+    },
+    "accuracy_only": {
+      "bad_shipped": 12,
+      "bad_total": 35,
+      "good_held": 1,
+      "good_total": 19,
+      "privacy_breaches_shipped": 6
+    },
+    "always": {
+      "bad_shipped": 35,
+      "bad_total": 35,
+      "good_held": 0,
+      "good_total": 19,
+      "privacy_breaches_shipped": 9
+    }
+  },
+  "by_candidate": {
+    "refresh": {
+      "bad": 1,
+      "n": 9,
+      "gate": 5,
+      "accuracy_only": 7,
+      "always": 9
+    },
+    "unredacted": {
+      "bad": 9,
+      "n": 9,
+      "gate": 0,
+      "accuracy_only": 6,
+      "always": 9
+    },
+    "wrong-tenant": {
+      "bad": 9,
+      "n": 9,
+      "gate": 0,
+      "accuracy_only": 0,
+      "always": 9
+    },
+    "stale": {
+      "bad": 4,
+      "n": 9,
+      "gate": 2,
+      "accuracy_only": 8,
+      "always": 9
+    },
+    "label-noise": {
+      "bad": 9,
+      "n": 9,
+      "gate": 0,
+      "accuracy_only": 0,
+      "always": 9
+    },
+    "missing-urgent": {
+      "bad": 3,
+      "n": 9,
+      "gate": 4,
+      "accuracy_only": 9,
+      "always": 9
+    }
+  }
+}

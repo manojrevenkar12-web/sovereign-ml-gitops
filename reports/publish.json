@@ -1,0 +1,158 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "records": {
+    "kreis-lindenau": {
+      "candidate": "sha256:3c3f474373ce0374accd560ed1acc99e16e75314bc4976ce1f72f2d886ab9bdf",
+      "decision": {
+        "promote": false,
+        "summary": "hold: ordnungsamt recall 63% is below the 85% floor",
+        "checks": [
+          {
+            "name": "training data pseudonymised",
+            "passed": true,
+            "value": 0.0,
+            "limit": 0.0,
+            "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries"
+          },
+          {
+            "name": "not worse than champion",
+            "passed": true,
+            "value": 36.902800658978585,
+            "limit": -1.0,
+            "reason": "accuracy vs champion could be +36.9 pts (limit -1.0)"
+          },
+          {
+            "name": "recall ordnungsamt",
+            "passed": false,
+            "value": 0.6333333333333333,
+            "limit": 0.85,
+            "reason": "ordnungsamt recall 63% is below the 85% floor"
+          },
+          {
+            "name": "latency",
+            "passed": true,
+            "value": 0.27356499994084515,
+            "limit": 25.0,
+            "reason": "p95 latency 0.3 ms over 25.0 ms"
+          },
+          {
+            "name": "adapter size",
+            "passed": true,
+            "value": 515.505859375,
+            "limit": 1200,
+            "reason": "adapter is 516 kB, over 1200 kB"
+          }
+        ]
+      },
+      "metrics": {
+        "val_accuracy": 0.9077429983525536,
+        "champion_val_accuracy": 0.500823723228995,
+        "p95_ms": 0.27356499994084515,
+        "adapter_kb": 515.505859375
+      },
+      "data_digest": "sha256:c8ed576daa4db621edd5f839683f94cd4c72d928692b3f07407fe4ecc5c9dee3"
+    },
+    "stadt-nordhafen": {
+      "candidate": "sha256:7b5d4967916501d8c5a026167cef64878d058287925044358a27b7fb781a8522",
+      "decision": {
+        "promote": true,
+        "summary": "promote",
+        "checks": [
+          {
+            "name": "training data pseudonymised",
+            "passed": true,
+            "value": 0.0,
+            "limit": 0.0,
+            "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries"
+          },
+          {
+            "name": "not worse than champion",
+            "passed": true,
+            "value": 1.5,
+            "limit": -1.0,
+            "reason": "accuracy vs champion could be +1.5 pts (limit -1.0)"
+          },
+          {
+            "name": "recall ordnungsamt",
+            "passed": true,
+            "value": 0.9775280898876404,
+            "limit": 0.85,
+            "reason": "ordnungsamt recall 98% is below the 85% floor"
+          },
+          {
+            "name": "latency",
+            "passed": true,
+            "value": 0.46226374997786474,
+            "limit": 25.0,
+            "reason": "p95 latency 0.5 ms over 25.0 ms"
+          },
+          {
+            "name": "adapter size",
+            "passed": true,
+            "value": 515.505859375,
+            "limit": 1200,
+            "reason": "adapter is 516 kB, over 1200 kB"
+          }
+        ]
+      },
+      "metrics": {
+        "val_accuracy": 0.9116666666666666,
+        "champion_val_accuracy": 0.8716666666666667,
+        "p95_ms": 0.46226374997786474,
+        "adapter_kb": 515.505859375
+      },
+      "data_digest": "sha256:dfcd408275e0e5c2f63bf149dd12973283cb554cee79fb55fbf47fe12d9df832"
+    },
+    "stadt-weidenbach": {
+      "candidate": "sha256:bf355ba96f1adea1e44396c608d382b27605f37434e585ed5d3b15bd358fc4bd",
+      "decision": {
+        "promote": true,
+        "summary": "promote",
+        "checks": [
+          {
+            "name": "training data pseudonymised",
+            "passed": true,
+            "value": 0.0,
+            "limit": 0.0,
+            "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries"
+          },
+          {
+            "name": "not worse than champion",
+            "passed": true,
+            "value": 21.666666666666668,
+            "limit": -1.0,
+            "reason": "accuracy vs champion could be +21.7 pts (limit -1.0)"
+          },
+          {
+            "name": "recall ordnungsamt",
+            "passed": true,
+            "value": 0.9558823529411765,
+            "limit": 0.85,
+            "reason": "ordnungsamt recall 96% is below the 85% floor"
+          },
+          {
+            "name": "latency",
+            "passed": true,
+            "value": 0.4630936499097515,
+            "limit": 25.0,
+            "reason": "p95 latency 0.5 ms over 25.0 ms"
+          },
+          {
+            "name": "adapter size",
+            "passed": true,
+            "value": 515.505859375,
+            "limit": 1200,
+            "reason": "adapter is 516 kB, over 1200 kB"
+          }
+        ]
+      },
+      "metrics": {
+        "val_accuracy": 0.9533333333333334,
+        "champion_val_accuracy": 0.7066666666666667,
+        "p95_ms": 0.4630936499097515,
+        "adapter_kb": 515.505859375
+      },
+      "data_digest": "sha256:4c3ab172ddefbfcd2d346015a2fb9235e439212405933fe2dbb9ce4d8e1c35b2"
+    }
+  }
+}

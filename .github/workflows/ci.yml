@@ -1,0 +1,143 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: lint, generated files, unit tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e ".[train,dev]"
+      - run: ruff check . && ruff format --check .
+      - name: Generated files match their sources
+        run: |
+          python scripts/gen_redactor.py --check
+          python scripts/scaffold.py --check
+      - run: pytest -q
+
+  chart:
+    name: helm lint, render, kubeconform, isolation
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.19.0
+      - name: Render every authority as Argo CD would
+        run: |
+          python scripts/render_values.py build/values
+          mkdir -p build/rendered
+          for f in build/values/*.yaml; do
+            t=$(basename "$f" .yaml)
+            helm lint charts/sov-model -f deploy/values/platform.yaml -f "$f"
+            helm template "sov-$t" charts/sov-model -n "sov-$t" -f deploy/values/platform.yaml -f "$f" > "build/rendered/$t.yaml"
+          done
+      - name: kubeconform
+        run: |
+          curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.7.0/kubeconform-linux-amd64.tar.gz | tar xz
+          ./kubeconform -strict -summary -kubernetes-version 1.33.0 \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            build/rendered/*.yaml deploy/argocd/*.yaml deploy/generated/grafana/datasources-configmap.yaml \
+            deploy/observability/fluent-bit-scripts/configmap.yaml
+      - name: Isolation probes on the rendered network policies
+        run: python scripts/isolation_check.py --rendered build/rendered --out isolation-ci.json
+
+  tofu:
+    name: opentofu fmt and validate
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.10.6
+      - run: tofu fmt -check -recursive infra
+      - run: tofu -chdir=infra/ionos init -backend=false -input=false && tofu -chdir=infra/ionos validate
+      - run: tofu -chdir=infra/platform init -backend=false -input=false && tofu -chdir=infra/platform validate
+
+  e2e-services:
+    name: live probes (Keycloak, Vault, Fluent Bit, Loki, router)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: docker build -t sov-api:e2e .
+      - run: python scripts/e2e_env.py "$RUNNER_TEMP/tampered" >> "$GITHUB_ENV"
+      - run: docker compose -f deploy/compose/e2e.yaml up -d
+      - run: pytest -m e2e tests/e2e -v
+        env:
+          E2E_REPORT: build/e2e.json
+      - name: Probe summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("build/e2e.json")
+          rows = json.loads(p.read_text()) if p.exists() else []
+          for layer in sorted({r["layer"] for r in rows}):
+              mine = [r for r in rows if r["layer"] == layer]
+              cross = [r for r in mine if r["actor"] != r["target"]]
+              own = [r for r in mine if r["actor"] == r["target"]]
+              print(f"::notice title=live {layer}::cross-authority allowed {sum(r['allowed'] for r in cross)}/{len(cross)}, own allowed {sum(r['allowed'] for r in own)}/{len(own)}")
+          PY
+      - if: failure()
+        run: docker compose -f deploy/compose/e2e.yaml logs --tail 200
+
+  e2e-gitops:
+    name: gitops on kind (Argo CD syncs this commit)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - uses: helm/kind-action@v1
+        with:
+          cluster_name: sov
+      - run: docker build -t ghcr.io/manojrevenkar12-web/sov-api:e2e . && kind load docker-image ghcr.io/manojrevenkar12-web/sov-api:e2e --name sov
+      - name: Install Argo CD
+        run: |
+          kubectl create namespace argocd
+          kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.1.8/manifests/install.yaml
+          kubectl -n argocd rollout status deploy/argocd-repo-server --timeout=300s
+          kubectl -n argocd rollout status deploy/argocd-applicationset-controller --timeout=300s
+          kubectl -n argocd rollout status statefulset/argocd-application-controller --timeout=300s
+      - name: Point the ApplicationSet at this commit
+        run: |
+          sed -e "s#revision: main#revision: ${GITHUB_SHA}#" -e "s#targetRevision: main#targetRevision: ${GITHUB_SHA}#" \
+              -e "s#../../deploy/values/platform.yaml#../../deploy/values/e2e-kind.yaml#" \
+              deploy/argocd/applicationset.yaml > build-appset.yaml
+          kubectl apply -f deploy/argocd/project.yaml
+          kubectl patch appproject sov-tenants -n argocd --type merge -p '{"spec":{"syncWindows":[]}}'
+          kubectl apply -f build-appset.yaml
+      - run: python3 scripts/gitops_drill.py
+        env:
+          DRILL_REPORT: build/gitops.json
+      - if: failure()
+        run: |
+          kubectl -n argocd get applications -o wide || true
+          kubectl get pods -A || true
+          kubectl -n argocd logs deploy/argocd-applicationset-controller --tail 100 || true

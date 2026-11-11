@@ -1,0 +1,10 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "bytes": 527878,
+  "commit": "local",
+  "data": "sha256:4c3ab172ddefbfcd2d346015a2fb9235e439212405933fe2dbb9ce4d8e1c35b2",
+  "digest": "sha256:bf355ba96f1adea1e44396c608d382b27605f37434e585ed5d3b15bd358fc4bd",
+  "examples": 400,
+  "kind": "adapter",
+  "tenant": "stadt-weidenbach"
+}

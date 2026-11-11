@@ -1,0 +1,77 @@
+# Live services for tests/e2e (CI job "e2e services"). The digests come from tenants/*.yaml through
+# scripts/e2e_env.py; nothing here is pinned by hand.
+name: sov-e2e
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.3
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: http://localhost:8080
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_HEALTH_ENABLED: "true"
+    ports: ["8080:8080"]
+    volumes:
+      - ../generated/keycloak:/opt/keycloak/data/import:ro
+
+  vault:
+    image: hashicorp/vault:1.20.4
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: e2e-root
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    cap_add: [IPC_LOCK]
+    ports: ["8200:8200"]
+
+  loki:
+    image: grafana/loki:3.5.3
+    command: ["-config.file=/etc/loki/sov.yaml"]
+    ports: ["3100:3100"]
+    volumes:
+      - ./loki.yaml:/etc/loki/sov.yaml:ro
+
+  fluent-bit:
+    image: fluent/fluent-bit:4.0.3
+    command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/sov.yaml"]
+    ports: ["9880:9880"]
+    volumes:
+      - ./fluent-bit.yaml:/fluent-bit/etc/sov.yaml:ro
+      - ../fluent-bit/redact.lua:/fluent-bit/scripts/redact.lua:ro
+      - ../fluent-bit/tenant.lua:/fluent-bit/scripts/tenant.lua:ro
+    depends_on: [loki]
+
+  api-nordhafen: &api
+    image: sov-api:e2e
+    environment:
+      SOV_TENANT: stadt-nordhafen
+      SOV_BASE_DIGEST: ${NORDHAFEN_BASE}
+      SOV_ADAPTER_DIGEST: ${NORDHAFEN_ADAPTER}
+      SOV_ISSUER: http://localhost:8080/realms/stadt-nordhafen
+      SOV_JWKS_URL: http://keycloak:8080/realms/stadt-nordhafen/protocol/openid-connect/certs
+    read_only: true
+    tmpfs: [/tmp]
+    ports: ["8081:8080"]
+    depends_on: [keycloak]
+
+  api-weidenbach:
+    <<: *api
+    environment:
+      SOV_TENANT: stadt-weidenbach
+      SOV_BASE_DIGEST: ${WEIDENBACH_BASE}
+      SOV_ADAPTER_DIGEST: ${WEIDENBACH_ADAPTER}
+      SOV_ISSUER: http://localhost:8080/realms/stadt-weidenbach
+      SOV_JWKS_URL: http://keycloak:8080/realms/stadt-weidenbach/protocol/openid-connect/certs
+    ports: ["8082:8080"]
+
+  api-tampered:
+    <<: *api
+    environment:
+      SOV_TENANT: stadt-nordhafen
+      SOV_BASE_DIGEST: ${NORDHAFEN_BASE}
+      SOV_ADAPTER_DIGEST: ${NORDHAFEN_ADAPTER}
+      SOV_REGISTRY: /tampered
+      SOV_ISSUER: http://localhost:8080/realms/stadt-nordhafen
+      SOV_JWKS_URL: http://keycloak:8080/realms/stadt-nordhafen/protocol/openid-connect/certs
+    volumes:
+      - ${TAMPERED_DIR}:/tampered:ro
+    ports: ["8083:8080"]

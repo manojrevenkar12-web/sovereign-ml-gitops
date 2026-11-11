@@ -1,0 +1,48 @@
+# fluent/fluent-bit chart. Every container log line passes redact.lua (generated from config/pii_rules.yaml)
+# before it leaves the node, then goes to Loki under its authority's tenant id.
+luaScripts: {}
+extraVolumes:
+  - name: sov-scripts
+    configMap:
+      name: fluent-bit-scripts
+extraVolumeMounts:
+  - name: sov-scripts
+    mountPath: /fluent-bit/scripts/sov
+    readOnly: true
+config:
+  inputs: |
+    [INPUT]
+        Name              tail
+        Path              /var/log/containers/*.log
+        multiline.parser  cri, docker
+        Tag               kube.*
+        Mem_Buf_Limit     50MB
+        Skip_Long_Lines   On
+  filters: |
+    [FILTER]
+        Name                kubernetes
+        Match               kube.*
+        Merge_Log           On
+        Keep_Log            Off
+        Labels              Off
+        Annotations         Off
+    [FILTER]
+        Name    lua
+        Match   kube.*
+        script  /fluent-bit/scripts/sov/redact.lua
+        call    redact_record
+    [FILTER]
+        Name    lua
+        Match   kube.*
+        script  /fluent-bit/scripts/sov/tenant.lua
+        call    set_tenant
+  outputs: |
+    [OUTPUT]
+        Name            loki
+        Match           kube.*
+        Host            loki-gateway.observability.svc
+        Port            80
+        tenant_id_key   sov_tenant
+        remove_keys     sov_tenant
+        labels          job=fluent-bit, namespace=$kubernetes['namespace_name'], container=$kubernetes['container_name']
+        line_format     json

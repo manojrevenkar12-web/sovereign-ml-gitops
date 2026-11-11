@@ -1,0 +1,58 @@
+{{- if .Values.monitoring.serviceMonitor }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "sov.name" . }}
+  labels:
+    {{- include "sov.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "sov.selector" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+{{- end }}
+{{- if .Values.monitoring.rules }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "sov.name" . }}
+  labels:
+    {{- include "sov.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: sov-model.{{ include "sov.tenant" . }}
+      rules:
+        - alert: SovRouterSlow
+          expr: histogram_quantile(0.95, sum by (le) (rate(sov_route_seconds_bucket{tenant="{{ include "sov.tenant" . }}"}[10m]))) > 0.025
+          for: 15m
+          labels: {severity: warning, tenant: {{ include "sov.tenant" . | quote }}}
+          annotations:
+            summary: p95 routing time above 25 ms
+            runbook_url: https://github.com/manojrevenkar12-web/sovereign-ml-gitops/blob/main/docs/runbook.md#slow-routing
+        - alert: SovHandoffShareUp
+          expr: |
+            sum(rate(sov_requests_total{tenant="{{ include "sov.tenant" . }}",handoff="true"}[1h]))
+              / sum(rate(sov_requests_total{tenant="{{ include "sov.tenant" . }}"}[1h])) > 0.15
+          for: 2h
+          labels: {severity: warning, tenant: {{ include "sov.tenant" . | quote }}}
+          annotations:
+            summary: more than 15% of inquiries go to a person; wording or routing may have changed
+            runbook_url: https://github.com/manojrevenkar12-web/sovereign-ml-gitops/blob/main/docs/runbook.md#handoff-share
+        - alert: SovAuthFailuresUp
+          expr: sum by (reason) (rate(sov_auth_failures_total{tenant="{{ include "sov.tenant" . }}"}[10m])) > 1
+          for: 10m
+          labels: {severity: warning, tenant: {{ include "sov.tenant" . | quote }}}
+          annotations:
+            summary: refused tokens; a client may be using another authority's realm
+            runbook_url: https://github.com/manojrevenkar12-web/sovereign-ml-gitops/blob/main/docs/runbook.md#auth-failures
+        - alert: SovArtifactIntegrity
+          expr: increase(sov_artifact_integrity_failures_total{tenant="{{ include "sov.tenant" . }}"}[5m]) > 0
+          labels: {severity: critical, tenant: {{ include "sov.tenant" . | quote }}}
+          annotations:
+            summary: a model artifact did not match its pinned digest; the pod will not serve
+            runbook_url: https://github.com/manojrevenkar12-web/sovereign-ml-gitops/blob/main/docs/runbook.md#artifact-integrity
+{{- end }}

@@ -1,0 +1,17 @@
+# grafana/grafana chart. Data sources come from deploy/generated/grafana (one per authority);
+# dashboards from deploy/observability/dashboards. Login through the platform Keycloak realm.
+sidecar:
+  datasources: {enabled: true, label: grafana_datasource}
+  dashboards: {enabled: true, label: grafana_dashboard}
+grafana.ini:
+  server: {root_url: https://grafana.sov.example}
+  auth.generic_oauth:
+    enabled: true
+    name: Keycloak
+    client_id: grafana
+    scopes: openid profile email
+    auth_url: https://id.sov.example/realms/sov-platform/protocol/openid-connect/auth
+    token_url: https://id.sov.example/realms/sov-platform/protocol/openid-connect/token
+    api_url: https://id.sov.example/realms/sov-platform/protocol/openid-connect/userinfo
+    role_attribute_path: contains(groups[*], '/sov-platform-ops') && 'Editor' || 'Viewer'
+envFromSecret: grafana-oauth           # written by the Vault Secrets Operator, never in git

@@ -1,0 +1,48 @@
+# Values for one authority. Argo CD fills tenant, model and serving from tenants/<name>.yaml
+# (deploy/argocd/applicationset.yaml); nothing here is edited per authority by hand.
+tenant: ""
+
+image:
+  repository: ghcr.io/manojrevenkar12-web/sov-api
+  tag: ""                 # CI sets the commit SHA; never "latest"
+  pullPolicy: IfNotPresent
+
+model:
+  base: ""                # sha256:<64 hex>, required
+  adapter: ""             # empty: the authority is not live yet, so no pods run
+  path: /models
+
+artifacts:
+  source: image           # image: baked into the image (air-gapped sites); s3: pulled by digest at start
+  s3:
+    endpoint: https://s3.eu-central-3.ionoscloud.com
+    bucket: sov-models
+    image: amazon/aws-cli:2.27.50
+
+keycloak:
+  url: http://keycloak.identity.svc:8080
+  audience: inquiry-router-api
+
+replicas: 2
+resources:
+  cpu: 250m
+  memory: 384Mi
+
+vault:
+  enabled: false          # true: the Vault Agent injector writes the S3 credentials into the pod
+  role: ""                # default: sov-<tenant>
+
+network:
+  ingressNamespace: ingress-nginx
+  monitoringNamespace: observability
+  keycloakNamespace: identity
+  vaultNamespace: vault
+
+monitoring:
+  serviceMonitor: false   # needs the Prometheus Operator CRDs
+  rules: false
+
+quota:
+  pods: "10"
+  cpu: "4"
+  memory: 4Gi

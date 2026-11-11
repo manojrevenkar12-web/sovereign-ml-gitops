@@ -1,0 +1,13 @@
+# Values every authority shares. The GitLab release job changes image.tag in a merge request.
+image:
+  repository: ghcr.io/manojrevenkar12-web/sov-api
+  tag: "1.4.0"
+artifacts:
+  source: s3
+keycloak:
+  url: https://id.sov.example
+vault:
+  enabled: true
+monitoring:
+  serviceMonitor: true
+  rules: true

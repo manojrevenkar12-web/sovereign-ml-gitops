@@ -1,0 +1,13 @@
+{{- if and (include "sov.live" .) (gt (.Values.replicas | int) 1) }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "sov.name" . }}
+  labels:
+    {{- include "sov.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "sov.selector" . | nindent 6 }}
+{{- end }}

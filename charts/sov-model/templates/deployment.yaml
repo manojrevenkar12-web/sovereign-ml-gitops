@@ -1,0 +1,141 @@
+{{- if include "sov.live" . }}
+{{- $base := include "sov.digest" .Values.model.base -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sov.name" . }}
+  labels:
+    {{- include "sov.labels" . | nindent 4 }}
+  annotations:
+    sov/base: {{ $base | quote }}
+    sov/adapter: {{ include "sov.digest" .Values.model.adapter | quote }}
+spec:
+  replicas: {{ .Values.replicas | int }}
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      {{- include "sov.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "sov.labels" . | nindent 8 }}
+      annotations:
+        sov/adapter: {{ .Values.model.adapter | toString | quote }}
+        {{- if .Values.vault.enabled }}
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/role: {{ default (printf "sov-%s" (include "sov.tenant" .)) .Values.vault.role | quote }}
+        vault.hashicorp.com/agent-inject-secret-s3: {{ printf "kv/data/tenants/%s/s3" (include "sov.tenant" .) | quote }}
+        vault.hashicorp.com/agent-inject-template-s3: |
+          {{`{{- with secret "`}}{{ printf "kv/data/tenants/%s/s3" (include "sov.tenant" .) }}{{`" -}}
+          export AWS_ACCESS_KEY_ID="{{ .Data.data.access_key }}"
+          export AWS_SECRET_ACCESS_KEY="{{ .Data.data.secret_key }}"
+          {{- end }}`}}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "sov.name" . }}
+      automountServiceAccountToken: {{ .Values.vault.enabled }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      {{- if eq .Values.artifacts.source "s3" }}
+      initContainers:
+        - name: fetch-artifacts
+          image: {{ .Values.artifacts.s3.image }}
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              . /vault/secrets/s3
+              for d in {{ $base }} {{ .Values.model.adapter }}; do
+                hex="${d#sha256:}"
+                aws s3 cp "s3://{{ .Values.artifacts.s3.bucket }}/${hex}.npz" "{{ .Values.model.path }}/${hex}.npz" \
+                  --endpoint-url "{{ .Values.artifacts.s3.endpoint }}" --only-show-errors
+                echo "${hex}  {{ .Values.model.path }}/${hex}.npz" | sha256sum -c -
+              done
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: models
+              mountPath: {{ .Values.model.path }}
+            - name: tmp
+              mountPath: /tmp
+      {{- end }}
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}:{{ required "image.tag is required" .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SOV_TENANT
+              value: {{ include "sov.tenant" . | quote }}
+            - name: SOV_BASE_DIGEST
+              value: {{ $base | quote }}
+            - name: SOV_ADAPTER_DIGEST
+              value: {{ .Values.model.adapter | quote }}
+            - name: SOV_REGISTRY
+              value: {{ .Values.model.path | quote }}
+            - name: SOV_ISSUER
+              value: {{ printf "%s/realms/%s" .Values.keycloak.url (include "sov.tenant" .) | quote }}
+            - name: SOV_AUDIENCE
+              value: {{ .Values.keycloak.audience | quote }}
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: {{ .Values.resources.cpu | quote }}
+              memory: {{ .Values.resources.memory | quote }}
+            limits:
+              memory: {{ .Values.resources.memory | quote }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            {{- if eq .Values.artifacts.source "s3" }}
+            - name: models
+              mountPath: {{ .Values.model.path }}
+              readOnly: true
+            {{- end }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        {{- if eq .Values.artifacts.source "s3" }}
+        - name: models
+          emptyDir:
+            sizeLimit: 256Mi
+        {{- end }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              {{- include "sov.selector" . | nindent 14 }}
+{{- end }}

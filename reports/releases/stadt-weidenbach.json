@@ -1,0 +1,74 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "candidate": "sha256:bf355ba96f1adea1e44396c608d382b27605f37434e585ed5d3b15bd358fc4bd",
+  "champion": "sha256:bf355ba96f1adea1e44396c608d382b27605f37434e585ed5d3b15bd358fc4bd",
+  "commit": "local",
+  "data_digest": "sha256:4c3ab172ddefbfcd2d346015a2fb9235e439212405933fe2dbb9ce4d8e1c35b2",
+  "decision": {
+    "checks": [
+      {
+        "limit": 0.0,
+        "name": "training data pseudonymised",
+        "passed": true,
+        "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries",
+        "value": 0.0
+      },
+      {
+        "limit": -1.0,
+        "name": "not worse than champion",
+        "passed": true,
+        "reason": "accuracy vs champion could be +0.0 pts (limit -1.0)",
+        "value": 0.0
+      },
+      {
+        "limit": 0.85,
+        "name": "recall ordnungsamt",
+        "passed": true,
+        "reason": "ordnungsamt recall 96% is below the 85% floor",
+        "value": 0.9558823529411765
+      },
+      {
+        "limit": 25.0,
+        "name": "latency",
+        "passed": true,
+        "reason": "p95 latency 0.5 ms over 25.0 ms",
+        "value": 0.5285834500909912
+      },
+      {
+        "limit": 1200,
+        "name": "adapter size",
+        "passed": true,
+        "reason": "adapter is 516 kB, over 1200 kB",
+        "value": 515.505859375
+      }
+    ],
+    "promote": true,
+    "summary": "promote"
+  },
+  "metrics": {
+    "adapter_kb": 515.505859375,
+    "champion_val_accuracy": 0.9533333333333334,
+    "p95_ms": 0.5285834500909912,
+    "val_accuracy": 0.9533333333333334
+  },
+  "steps": [
+    {
+      "examples": 400,
+      "ok": true,
+      "step": "contract"
+    },
+    {
+      "ran": true,
+      "step": "pseudonymise"
+    },
+    {
+      "seconds": 3.8,
+      "step": "fine-tune"
+    },
+    {
+      "promote": true,
+      "step": "gate"
+    }
+  ],
+  "tenant": "stadt-weidenbach"
+}

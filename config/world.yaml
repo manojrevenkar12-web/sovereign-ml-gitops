@@ -1,0 +1,249 @@
+# THE TRUTH of the simulated world. Only src/sov/world/ reads this file.
+# Citizens write inquiries about a topic; which department handles a topic differs between authorities
+# (a district hands registration to its towns, a city hands waste to its own company), and changes when
+# an authority reorganises. The platform only ever sees inquiries with the labels case handlers gave them.
+
+departments: [meldewesen, kfz, fuehrerschein, standesamt, gewerbe, sozialleistungen, bauamt,
+              ordnungsamt, steuern, abfall, kita, elterngeld, extern]
+
+handler_label_noise: 0.02      # share of case-handler labels that are wrong
+typo_rate: 0.10
+two_topic_rate: 0.08            # inquiries that mention a second topic in passing
+pii_rate: 0.35                  # inquiries that contain personal data
+
+topics:
+  ummeldung:
+    dept: meldewesen
+    weight: 9
+    phrases:
+      - ich bin umgezogen und muss mich ummelden
+      - wie melde ich meinen neuen wohnsitz an
+      - brauche einen termin für die anmeldung der wohnung
+      - die wohnungsgeberbestätigung fehlt mir noch für die anmeldung
+      - nebenwohnsitz abmelden wie geht das
+  personalausweis:
+    dept: meldewesen
+    weight: 8
+    phrases:
+      - mein personalausweis ist abgelaufen
+      - ich möchte einen neuen perso beantragen
+      - ausweis verloren was muss ich jetzt tun
+      - wann ist mein personalausweis abholbereit
+      - pin für den online ausweis vergessen
+  reisepass:
+    dept: meldewesen
+    weight: 5
+    phrases:
+      - reisepass für den urlaub beantragen
+      - kinderreisepass verlängern bitte
+      - wie lange dauert ein express reisepass
+  meldebescheinigung:
+    dept: meldewesen
+    weight: 3
+    phrases:
+      - ich brauche eine meldebescheinigung für den arbeitgeber
+      - erweiterte meldebescheinigung beantragen
+  zulassung:
+    dept: kfz
+    weight: 7
+    phrases:
+      - auto zulassen nach dem kauf
+      - fahrzeug auf den neuen halter ummelden
+      - wunschkennzeichen reservieren
+      - kfz abmelden und stilllegen
+      - saisonkennzeichen für das motorrad
+  fuehrerschein:
+    dept: fuehrerschein
+    weight: 4
+    phrases:
+      - alten rosa führerschein umtauschen
+      - führerschein verloren ich brauche einen ersatz
+      - internationalen führerschein beantragen
+      - fahrerlaubnis nach entzug neu erteilen
+  geburt:
+    dept: standesamt
+    weight: 3
+    phrases:
+      - geburtsurkunde für mein kind
+      - geburt anzeigen nach der entbindung
+  ehe:
+    dept: standesamt
+    weight: 3
+    phrases:
+      - termin für die eheschließung
+      - anmeldung zur eheschließung welche unterlagen brauche ich
+  sterbefall:
+    dept: standesamt
+    weight: 2
+    phrases:
+      - sterbeurkunde beantragen
+      - sterbefall beurkunden lassen
+  gewerbe:
+    dept: gewerbe
+    weight: 4
+    phrases:
+      - gewerbe anmelden für meinen onlineshop
+      - gewerbe abmelden zum monatsende
+      - gaststättenerlaubnis beantragen
+      - reisegewerbekarte für den markt
+  wohngeld:
+    dept: sozialleistungen
+    weight: 5
+    phrases:
+      - wohngeld antrag stellen
+      - der bescheid über mein wohngeld fehlt noch
+      - weiterleistungsantrag wohngeld abgeben
+  sozialpass:
+    dept: sozialleistungen
+    weight: 3
+    phrases:
+      - "{pass} beantragen"
+      - ermäßigung im schwimmbad mit dem {pass}
+      - "{pass} ist abgelaufen"
+  bauantrag:
+    dept: bauamt
+    weight: 4
+    phrases:
+      - bauantrag für einen carport
+      - genehmigung für den wintergarten
+      - bauvoranfrage stellen für das grundstück
+      - baulast eintragen lassen
+  laerm:
+    dept: ordnungsamt
+    weight: 3
+    phrases:
+      - lärmbelästigung durch die nachbarn jede nacht
+      - baustelle macht lärm am sonntag
+  falschparker:
+    dept: ordnungsamt
+    weight: 3
+    phrases:
+      - ein auto parkt seit tagen in meiner einfahrt
+      - falschparker auf dem gehweg melden
+  gefahr:
+    dept: ordnungsamt
+    weight: 1.5
+    phrases:
+      - ein baum ist auf die straße gestürzt
+      - gullydeckel fehlt das ist gefährlich
+      - die ampel an der kreuzung ist ausgefallen
+      - offene baugrube ist nicht gesichert
+  sondernutzung:
+    dept: ordnungsamt
+    weight: 2
+    phrases:
+      - straßenfest anmelden
+      - container auf der straße abstellen genehmigung
+  bewohnerparken:
+    dept: ordnungsamt
+    weight: 3
+    phrases:
+      - bewohnerparkausweis beantragen
+      - parkausweis für anwohner verlängern
+      - anwohnerparken in meiner straße
+  grundsteuer:
+    dept: steuern
+    weight: 3
+    phrases:
+      - grundsteuerbescheid ist falsch
+      - grundsteuer lastschrift ändern
+  hundesteuer:
+    dept: steuern
+    weight: 2
+    phrases:
+      - hund anmelden für die hundesteuer
+      - hundesteuermarke verloren
+  sperrmuell:
+    dept: abfall
+    weight: 4
+    phrases:
+      - sperrmüll abholung anmelden
+      - wann ist der nächste sperrmüll termin
+      - alten kühlschrank entsorgen
+  tonne:
+    dept: abfall
+    weight: 4
+    phrases:
+      - die biotonne wurde nicht geleert
+      - neue restmülltonne bestellen
+      - abfuhrkalender von {waste}
+  kitaplatz:
+    dept: kita
+    weight: 4
+    phrases:
+      - kitaplatz für meine tochter gesucht
+      - betreuungsplatz ab august
+      - kita gutschein beantragen
+  elternbeitrag:
+    dept: kita
+    weight: 2
+    phrases:
+      - elternbeitrag für die kita ist zu hoch berechnet
+  elterngeld:
+    dept: elterngeld
+    weight: 3
+    phrases:
+      - elterngeld antrag wie lange dauert die bearbeitung
+      - elterngeld plus und partnerschaftsbonus
+      - elterngeld bescheid widerspruch
+
+# Phrases every authority sees, to make the text look like real mail.
+openers: ["", "hallo,", "guten tag,", "sehr geehrte damen und herren,", "moin,", "hi,"]
+closers: ["", "danke", "vielen dank im voraus", "mfg", "mit freundlichen grüßen", "lg"]
+local_refs:
+  - im {office}
+  - bei ihnen im {office}
+  - beim {office}
+  - online beim {office}
+generic:
+  office: bürgeramt
+  pass: sozialpass
+  waste: der stadtreinigung
+
+# Authorities on the platform. Each differs from the generic routing in its own way.
+tenants:
+  stadt-nordhafen:
+    kind: kreisfreie Stadt
+    office: kundenzentrum
+    pass: nordhafen-pass
+    waste: der nhe
+    overrides: {sperrmuell: extern, tonne: extern}
+    # Residents' parking moved from the vehicle office to the public order office on 1 July 2026.
+    reorg: {topic: bewohnerparken, before: kfz, after: ordnungsamt}
+    weights: {bewohnerparken: 5, gefahr: 2}
+  kreis-lindenau:
+    kind: Landkreis
+    office: kreishaus
+    pass: lindenaucard
+    waste: dem abfallbetrieb lindenau
+    overrides: {ummeldung: extern, personalausweis: extern, reisepass: extern, meldebescheinigung: extern,
+                geburt: extern, ehe: extern, sterbefall: extern, gewerbe: extern, laerm: extern,
+                falschparker: extern, bewohnerparken: extern, grundsteuer: extern, hundesteuer: extern}
+    weights: {zulassung: 12, bauantrag: 7, fuehrerschein: 6}
+  stadt-weidenbach:
+    kind: kreisangehörige Stadt
+    office: bürgerbüro
+    pass: weidenbacher familienpass
+    waste: dem bauhof
+    overrides: {zulassung: extern, fuehrerschein: extern, bauantrag: extern, elterngeld: extern,
+                kitaplatz: extern, elternbeitrag: extern}
+    weights: {ummeldung: 12, personalausweis: 10}
+
+# Held out: never used while building the pipeline or the gate. Scored once (see docs/heldout.md).
+heldout_tenants:
+  stadt-ostmark:
+    kind: kreisfreie Stadt
+    office: bürgerservice
+    pass: ostmark-pass
+    waste: dem oeb
+    overrides: {bewohnerparken: kfz, kitaplatz: extern, elternbeitrag: extern, sondernutzung: bauamt}
+    weights: {kitaplatz: 6}
+
+names:
+  first: [anna, jonas, leonie, mehmet, sophie, lukas, fatma, maximilian, olga, paul, emine, felix, ewa,
+          niklas, aylin, tobias, marta, david, chiara, stefan, yusuf, laura, dmitri, hannah, kofi, julia]
+  last: [müller, schmidt, yılmaz, schneider, nowak, fischer, weber, kaya, meyer, wagner, becker, kowalski,
+         hoffmann, schulz, demir, koch, richter, petrov, wolf, schröder, neumann, öztürk, braun, zimmermann]
+  streets: [hauptstraße, bahnhofstraße, lindenweg, gartenstraße, am markt, schulstraße, mühlenweg,
+            kirchplatz, rosenallee, hafenring, birkenstraße, eichendorffstraße]
+  cities: [nordhafen, lindenau, weidenbach, ostmark, kleinmühlen, oberdorf]

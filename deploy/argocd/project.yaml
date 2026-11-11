@@ -1,0 +1,36 @@
+# Authorities' applications may only come from this repository, only land in sov-* namespaces and may
+# create no cluster-scoped objects except their own Namespace.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: sov-tenants
+  namespace: argocd
+spec:
+  description: Inquiry routers, one namespace per public authority
+  sourceRepos:
+    - https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: "sov-*"
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceBlacklist:
+    - group: rbac.authorization.k8s.io
+      kind: "*"
+  roles:
+    - name: platform-ops                # Keycloak group of the DevOps team (Argo CD OIDC)
+      policies:
+        - p, proj:sov-tenants:platform-ops, applications, get, sov-tenants/*, allow
+        - p, proj:sov-tenants:platform-ops, applications, sync, sov-tenants/*, allow
+      groups: ["/sov-platform-ops"]
+    - name: auditor
+      policies:
+        - p, proj:sov-tenants:auditor, applications, get, sov-tenants/*, allow
+      groups: ["/sov-auditors"]
+  syncWindows:
+    - kind: deny                        # no automatic rollouts during the authorities' office hours peak
+      schedule: "0 8 * * 1-5"
+      duration: 2h
+      applications: ["sov-*"]
+      manualSync: true

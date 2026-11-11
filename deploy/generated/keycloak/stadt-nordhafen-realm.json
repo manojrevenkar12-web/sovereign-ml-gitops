@@ -1,0 +1,72 @@
+{
+  "realm": "stadt-nordhafen",
+  "displayName": "Stadt Nordhafen",
+  "enabled": true,
+  "sslRequired": "external",
+  "accessTokenLifespan": 300,
+  "bruteForceProtected": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "inquiry-router",
+        "description": "may route inquiries"
+      },
+      {
+        "name": "audit-reader",
+        "description": "may read release records and audit logs"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "name": "buergerservice",
+      "path": "/buergerservice",
+      "realmRoles": [
+        "inquiry-router"
+      ]
+    },
+    {
+      "name": "fachaufsicht",
+      "path": "/fachaufsicht",
+      "realmRoles": [
+        "inquiry-router",
+        "audit-reader"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "inquiry-router-api",
+      "enabled": true,
+      "bearerOnly": true,
+      "publicClient": false
+    },
+    {
+      "clientId": "inquiry-portal",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "https://stadt-nordhafen.portal.example/*"
+      ],
+      "webOrigins": [
+        "https://stadt-nordhafen.portal.example"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "protocolMappers": [
+        {
+          "name": "audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "inquiry-router-api",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ]
+}

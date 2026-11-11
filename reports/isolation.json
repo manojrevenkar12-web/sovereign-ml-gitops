@@ -1,0 +1,386 @@
+{
+  "ok": true,
+  "by_layer": {
+    "vault": {
+      "cross_tenant": 18,
+      "cross_tenant_allowed": 0,
+      "own": 6,
+      "own_allowed": 6
+    },
+    "keycloak": {
+      "cross_tenant": 6,
+      "cross_tenant_allowed": 0,
+      "own": 3,
+      "own_allowed": 3
+    },
+    "loki": {
+      "cross_tenant": 6,
+      "cross_tenant_allowed": 0,
+      "own": 3,
+      "own_allowed": 3
+    }
+  },
+  "failures": [],
+  "probes": [
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "kreis-lindenau",
+      "action": "read s3 credentials",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "kreis-lindenau",
+      "action": "list secrets",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "kreis-lindenau",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-nordhafen",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-nordhafen",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-nordhafen",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-weidenbach",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-weidenbach",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "kreis-lindenau",
+      "target": "stadt-weidenbach",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "kreis-lindenau",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "kreis-lindenau",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "kreis-lindenau",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-nordhafen",
+      "action": "read s3 credentials",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-nordhafen",
+      "action": "list secrets",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-nordhafen",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-weidenbach",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-weidenbach",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-weidenbach",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "kreis-lindenau",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "kreis-lindenau",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "kreis-lindenau",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-nordhafen",
+      "action": "read s3 credentials",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-nordhafen",
+      "action": "list secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-nordhafen",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-weidenbach",
+      "action": "read s3 credentials",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-weidenbach",
+      "action": "list secrets",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "vault",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-weidenbach",
+      "action": "write secrets",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "kreis-lindenau",
+      "target": "kreis-lindenau",
+      "action": "call the router with a token",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "keycloak",
+      "actor": "kreis-lindenau",
+      "target": "stadt-nordhafen",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "kreis-lindenau",
+      "target": "stadt-weidenbach",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-nordhafen",
+      "target": "kreis-lindenau",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-nordhafen",
+      "action": "call the router with a token",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-weidenbach",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-weidenbach",
+      "target": "kreis-lindenau",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-nordhafen",
+      "action": "call the router with a token",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "keycloak",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-weidenbach",
+      "action": "call the router with a token",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "loki",
+      "actor": "kreis-lindenau",
+      "target": "kreis-lindenau",
+      "action": "read logs through Grafana",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "loki",
+      "actor": "kreis-lindenau",
+      "target": "stadt-nordhafen",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "kreis-lindenau",
+      "target": "stadt-weidenbach",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-nordhafen",
+      "target": "kreis-lindenau",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-nordhafen",
+      "action": "read logs through Grafana",
+      "allowed": true,
+      "expected": true
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-nordhafen",
+      "target": "stadt-weidenbach",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-weidenbach",
+      "target": "kreis-lindenau",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-nordhafen",
+      "action": "read logs through Grafana",
+      "allowed": false,
+      "expected": false
+    },
+    {
+      "layer": "loki",
+      "actor": "stadt-weidenbach",
+      "target": "stadt-weidenbach",
+      "action": "read logs through Grafana",
+      "allowed": true,
+      "expected": true
+    }
+  ]
+}

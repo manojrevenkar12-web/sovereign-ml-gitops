@@ -1,0 +1,20 @@
+{
+  "kreis-lindenau": {
+    "namespace": "sov-kreis-lindenau",
+    "vault_policy": "vault/kreis-lindenau.hcl",
+    "keycloak_realm": "keycloak/kreis-lindenau-realm.json",
+    "loki_tenant": "kreis-lindenau"
+  },
+  "stadt-nordhafen": {
+    "namespace": "sov-stadt-nordhafen",
+    "vault_policy": "vault/stadt-nordhafen.hcl",
+    "keycloak_realm": "keycloak/stadt-nordhafen-realm.json",
+    "loki_tenant": "stadt-nordhafen"
+  },
+  "stadt-weidenbach": {
+    "namespace": "sov-stadt-weidenbach",
+    "vault_policy": "vault/stadt-weidenbach.hcl",
+    "keycloak_realm": "keycloak/stadt-weidenbach-realm.json",
+    "loki_tenant": "stadt-weidenbach"
+  }
+}

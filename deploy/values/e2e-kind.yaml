@@ -1,0 +1,14 @@
+# Values for the kind cluster in CI (job "gitops on kind"): image built in the job, artifacts inside it.
+image:
+  repository: ghcr.io/manojrevenkar12-web/sov-api
+  tag: e2e
+  pullPolicy: Never
+artifacts:
+  source: image
+vault:
+  enabled: false
+monitoring:
+  serviceMonitor: false
+  rules: false
+keycloak:
+  url: http://keycloak.identity.svc:8080

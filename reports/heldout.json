@@ -1,0 +1,144 @@
+{
+  "lock": {
+    "pinned": "2026-11-11",
+    "seed": 4711,
+    "note": "Pinned before the held-out run. heldout.py refuses to run if any of these files changed, or twice.",
+    "files": {
+      "config/platform.toml": "988f28218a910d5b63e17ea162025a5510011102b329a097fdf8c41a3f8c003b",
+      "config/pii_rules.yaml": "c885d6e197a30cbed6817a41efab27b76eb8f564ddf4d41769be77a8fd0fe1eb",
+      "config/first_names.txt": "2521f7c11a74605e1663f9d5ea8f98d8f935d9a30b1f7d92334cec3c2e665b61",
+      "src/sov/pii/engine.lua": "fb3917dd969e170342d5af9581a4751cdabd1e23fb71ed3135666b6f9e44b64c",
+      "deploy/fluent-bit/redact.lua": "8e92288f5decbd0eb8931d50806d6596afaaf32f212c91c9ae55b15f3d31fb78",
+      "src/sov/ml/train.py": "36760e4d28218bf27dff2f8c381a097ae58e9ae7b168f2ab91248c15454fada6",
+      "src/sov/ml/model.py": "0564d61ba5ba73f2adb9da83e46bada9f31f862e22f1c0bd394d3fdb7f3c3424",
+      "src/sov/ml/features.py": "d52da13f82496ab5a50c4f97b8f52c14a81c171bffbdfcc9bee6789e21e67493",
+      "src/sov/ml/gate.py": "73c32ac1c199ea77b0bc12c22b7fa0f854bc8094e26656d4cfee8124721fe390",
+      "src/sov/ml/pipeline.py": "836f85f86161285b139a590cd3aed53252693fa9b2334272d64518dd1988cf07"
+    }
+  },
+  "onboarding": {
+    "tenant": "stadt-ostmark",
+    "gate": {
+      "promote": true,
+      "summary": "promote",
+      "checks": [
+        {
+          "name": "training data pseudonymised",
+          "passed": true,
+          "value": 0.0,
+          "limit": 0.0,
+          "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries"
+        },
+        {
+          "name": "not worse than champion",
+          "passed": true,
+          "value": 6.0,
+          "limit": -1.0,
+          "reason": "accuracy vs champion could be +6.0 pts (limit -1.0)"
+        },
+        {
+          "name": "recall ordnungsamt",
+          "passed": true,
+          "value": 0.9069767441860465,
+          "limit": 0.85,
+          "reason": "ordnungsamt recall 91% is below the 85% floor"
+        },
+        {
+          "name": "latency",
+          "passed": true,
+          "value": 0.430963900316783,
+          "limit": 25.0,
+          "reason": "p95 latency 0.4 ms over 25.0 ms"
+        },
+        {
+          "name": "adapter size",
+          "passed": true,
+          "value": 515.505859375,
+          "limit": 1200,
+          "reason": "adapter is 516 kB, over 1200 kB"
+        }
+      ]
+    },
+    "true_accuracy": {
+      "base": 0.83,
+      "lora": 0.914
+    },
+    "true_critical_recall": 0.8717948717948718
+  },
+  "logs": {
+    "recall": 0.3541624672445072,
+    "precision": 0.9978777589134126,
+    "instances": 4961,
+    "caught": 1757,
+    "false_finds": 5,
+    "by_kind": {
+      "name": {
+        "instances": 1714,
+        "caught": 738,
+        "recall": 0.4305717619603267
+      },
+      "address": {
+        "instances": 865,
+        "caught": 839,
+        "recall": 0.9699421965317919
+      },
+      "iban": {
+        "instances": 852,
+        "caught": 31,
+        "recall": 0.036384976525821594
+      },
+      "phone": {
+        "instances": 839,
+        "caught": 63,
+        "recall": 0.07508939213349225
+      },
+      "email": {
+        "instances": 24,
+        "caught": 24,
+        "recall": 1.0
+      },
+      "steuerid": {
+        "instances": 36,
+        "caught": 36,
+        "recall": 1.0
+      },
+      "dob": {
+        "instances": 631,
+        "caught": 26,
+        "recall": 0.04120443740095087
+      },
+      "ip": {
+        "instances": 0,
+        "caught": 0,
+        "recall": null
+      }
+    },
+    "by_source": {
+      "app-json-ascii": {
+        "instances": 386,
+        "recall": 0.8626943005181347,
+        "false_finds": 0
+      },
+      "audit": {
+        "instances": 0,
+        "recall": 0.0,
+        "false_finds": 5
+      },
+      "csv-export": {
+        "instances": 2328,
+        "recall": 0.3333333333333333,
+        "false_finds": 0
+      },
+      "form-v2": {
+        "instances": 605,
+        "recall": 0.0,
+        "false_finds": 0
+      },
+      "sepa-debug": {
+        "instances": 1642,
+        "recall": 0.3946406820950061,
+        "false_finds": 0
+      }
+    }
+  }
+}

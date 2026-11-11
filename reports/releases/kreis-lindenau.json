@@ -1,0 +1,74 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "candidate": "sha256:3c3f474373ce0374accd560ed1acc99e16e75314bc4976ce1f72f2d886ab9bdf",
+  "champion": null,
+  "commit": "local",
+  "data_digest": "sha256:c8ed576daa4db621edd5f839683f94cd4c72d928692b3f07407fe4ecc5c9dee3",
+  "decision": {
+    "checks": [
+      {
+        "limit": 0.0,
+        "name": "training data pseudonymised",
+        "passed": true,
+        "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries",
+        "value": 0.0
+      },
+      {
+        "limit": -1.0,
+        "name": "not worse than champion",
+        "passed": true,
+        "reason": "accuracy vs champion could be +36.9 pts (limit -1.0)",
+        "value": 36.902800658978585
+      },
+      {
+        "limit": 0.85,
+        "name": "recall ordnungsamt",
+        "passed": false,
+        "reason": "ordnungsamt recall 63% is below the 85% floor",
+        "value": 0.6333333333333333
+      },
+      {
+        "limit": 25.0,
+        "name": "latency",
+        "passed": true,
+        "reason": "p95 latency 0.3 ms over 25.0 ms",
+        "value": 0.27356499994084515
+      },
+      {
+        "limit": 1200,
+        "name": "adapter size",
+        "passed": true,
+        "reason": "adapter is 516 kB, over 1200 kB",
+        "value": 515.505859375
+      }
+    ],
+    "promote": false,
+    "summary": "hold: ordnungsamt recall 63% is below the 85% floor"
+  },
+  "metrics": {
+    "adapter_kb": 515.505859375,
+    "champion_val_accuracy": 0.500823723228995,
+    "p95_ms": 0.27356499994084515,
+    "val_accuracy": 0.9077429983525536
+  },
+  "steps": [
+    {
+      "examples": 416,
+      "ok": true,
+      "step": "contract"
+    },
+    {
+      "ran": true,
+      "step": "pseudonymise"
+    },
+    {
+      "seconds": 3.6,
+      "step": "fine-tune"
+    },
+    {
+      "promote": false,
+      "step": "gate"
+    }
+  ],
+  "tenant": "kreis-lindenau"
+}

@@ -1,0 +1,63 @@
+# Settings for everything that decides. Nothing in this file is truth about the simulated world;
+# the world lives in config/world.toml and only src/sov/world reads it.
+
+[model]
+buckets = 65536            # hashed n-gram buckets
+dim = 48                   # embedding width
+hidden = 64
+char_ngrams = [3, 5]       # inclusive range of character n-grams inside each word
+word_bigrams = true
+seed = 7
+
+[train.base]
+epochs = 12
+lr = 0.01
+batch = 64
+weight_decay = 0.0
+
+[train.adapter]            # LoRA on the embedding, hidden and head layers
+rank = 4
+alpha = 8.0
+epochs = 30
+lr = 0.02
+batch = 32
+critical_weight = 4.0      # loss weight for the departments a tenant marks critical
+
+[train.full]               # full fine-tune, the comparison a team would try first
+epochs = 30
+lr = 0.002
+batch = 32
+
+[gate]
+# A candidate adapter replaces the tenant's champion only if every check passes.
+non_inferiority_pts = 1.0          # lower bound of (candidate - champion) accuracy must clear -1.0 pt
+bootstrap_reps = 2000
+bootstrap_level = 0.95
+critical_recall_floor = 0.85       # recall on each class the tenant marks critical
+min_critical_examples = 30         # contract: examples per critical class in training and validation sets
+max_residual_pii_per_1k = 0.0      # PII instances still present in the training set after redaction
+max_p95_latency_ms = 25.0
+max_adapter_kb = 1200
+
+[gate.naive]
+# "accuracy only": what a team without the gate tends to do
+tolerance_pts = 1.0
+
+[serve]
+jwks_cache_seconds = 300
+leeway_seconds = 30
+required_role = "inquiry-router"
+low_confidence = 0.55              # below this the answer goes to a person instead of a department
+
+[pii]
+rules = "config/pii_rules.yaml"
+lua_engine = "deploy/fluent-bit/redact.lua"
+lua_rules = "deploy/fluent-bit/redact_rules.lua"
+
+[eval]
+seeds = [11, 23, 37]
+inquiries_per_tenant_train = 400
+inquiries_per_tenant_val = 600
+inquiries_per_tenant_test = 1500
+base_corpus = 6000
+log_lines = 4000

@@ -1,0 +1,111 @@
+# The pipeline as it runs in the authorities' GitLab (the GitHub workflow mirrors its checks for this
+# public repository). Deployments are pull-based: this pipeline never runs kubectl against a production
+# cluster. It opens merge requests; Argo CD applies what is merged.
+
+stages: [verify, build, train, gate, release, observe]
+
+default:
+  image: registry.gitlab.example/sov/ci-python:3.12
+  tags: [on-prem]
+  interruptible: true
+
+variables:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  IMAGE: $CI_REGISTRY_IMAGE/sov-api
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "schedule"          # nightly retrain per authority
+
+verify:
+  stage: verify
+  script:
+    - pip install -e ".[train,dev]"
+    - ruff check . && ruff format --check .
+    - python scripts/gen_redactor.py --check
+    - python scripts/scaffold.py --check
+    - pytest -q --junitxml=report.xml
+  artifacts:
+    reports:
+      junit: report.xml
+
+chart:
+  stage: verify
+  image: registry.gitlab.example/sov/ci-helm:3.19
+  script:
+    - python scripts/render_values.py build/values
+    - for f in build/values/*.yaml; do t=$(basename "$f" .yaml); helm lint charts/sov-model -f deploy/values/platform.yaml -f "$f"; helm template "sov-$t" charts/sov-model -n "sov-$t" -f deploy/values/platform.yaml -f "$f" > "build/rendered/$t.yaml"; done
+    - kubeconform -strict -summary build/rendered/*.yaml
+    - python scripts/isolation_check.py --rendered build/rendered --out isolation-ci.json
+  before_script: [mkdir -p build/rendered]
+
+tofu-plan:
+  stage: verify
+  image: registry.gitlab.example/sov/ci-tofu:1.10
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: https://vault.sov.example
+  script:
+    - tofu fmt -check -recursive infra
+    - tofu -chdir=infra/platform init -input=false && tofu -chdir=infra/platform plan -input=false -out=plan.bin
+  artifacts:
+    paths: [infra/platform/plan.bin]
+  rules:
+    - changes: [infra/**/*, tenants/*.yaml]
+
+build-image:
+  stage: build
+  image: gcr.io/kaniko-project/executor:v1.23.2-debug
+  script:
+    - /kaniko/executor --context "$CI_PROJECT_DIR" --destination "$IMAGE:$CI_COMMIT_SHA" --reproducible
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Fine-tuning runs as a Kubernetes Job on the runner's cluster: on premises, or on the IONOS fine-tune
+# pool for authorities whose tenants/<name>.yaml says fine_tune.where: ionos (pseudonymised data only).
+fine-tune:
+  stage: train
+  tags: [k8s-finetune]
+  parallel:
+    matrix:
+      - TENANT: [stadt-nordhafen, kreis-lindenau, stadt-weidenbach]
+  script:
+    - pip install -e ".[train]"
+    - python scripts/publish.py --only "$TENANT" --dry-run > release-$TENANT.json
+  artifacts:
+    paths: [release-*.json, artifacts/]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes: [config/platform.toml, src/sov/ml/**/*, config/pii_rules.yaml]
+
+gate:
+  stage: gate
+  script:
+    - python scripts/release_summary.py release-*.json > gate.md
+  artifacts:
+    paths: [gate.md]
+  needs: [fine-tune]
+
+release-mr:
+  stage: release
+  image: registry.gitlab.example/sov/ci-glab:1.57
+  script:
+    - aws s3 cp artifacts/ "s3://sov-models/" --recursive --endpoint-url "$S3_ENDPOINT" --only-show-errors
+    - python scripts/publish.py --pin-from release-*.json
+    - git switch -c "release/$CI_PIPELINE_ID"
+    - 'git commit -am "release: adapters from pipeline $CI_PIPELINE_ID"'
+    - git push origin "release/$CI_PIPELINE_ID"
+    - glab mr create --fill --description-file gate.md --label release --assignee "@platform-ops"
+  needs: [gate, build-image]
+  when: manual
+
+argo-status:
+  stage: observe
+  image: registry.gitlab.example/sov/ci-argocd:3.1
+  script:
+    - argocd app wait -l sov/tenant --sync --health --timeout 600 --grpc-web
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

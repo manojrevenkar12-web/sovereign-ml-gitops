@@ -1,0 +1,50 @@
+# The one definition of personal data. scripts/gen_redactor.py compiles it into
+# deploy/fluent-bit/redact.lua, which runs in two places: as the Fluent Bit filter in front of Loki,
+# and in the ML pipeline (through lupa) to pseudonymise training data. Patterns are Lua patterns.
+# Rules run in this order on the original text; a later rule never claims text an earlier rule took.
+
+placeholder: "<{kind}>"
+
+rules:
+  - kind: email
+    patterns:
+      - "[%w%._%+%-]+@[%w%-]+%.[%w%.%-]*%a"
+      - "[%w%._%+%-]+%%40[%w%-]+%.[%w%.%-]*%a"      # URL-encoded @ in query strings
+
+  - kind: iban
+    patterns: ["%f[%w]DE%d%d"]
+    validator: iban                                 # walks up to 20 more digits, spaces allowed; mod 97
+
+  - kind: steuerid
+    patterns: ["%f[%d]%d%d%d%d%d%d%d%d%d%d%d%f[%D]"]
+    validator: steuerid                             # ISO 7064 MOD 11,10 check digit and digit rule
+
+  - kind: dob
+    patterns: ["%f[%d]%d%d%.%d%d%.%d%d%d%d%f[%D]"]
+    context: ["geb.", "geboren", "geburtsdatum", "dob=", "birth"]
+    context_window: 24
+
+  - kind: ip
+    patterns: ["%f[%d]%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?%f[%D]"]
+    validator: ipv4
+
+  - kind: phone
+    patterns:
+      - "%+49[ %d/%-]*%d"
+      - "%%2B49[%d%%]*%d"
+      - "%f[%d]0%d%d+[ /%-]%d[%d %-]*%d"
+      - "%f[%d]0%d%d+%%20%d+"
+    validator: phone                                # 9 to 15 digits
+
+  - kind: name
+    after: ["mein name ist ", "name: ", "'name': '", "name=", "herr ", "frau ", "antragsteller: ",
+            "antragstellerin: ", "viele grüße ", "inhaber: "]
+    tokens: 2                                       # up to two capitalised words
+
+  - kind: name                                    # a known first name anywhere, plus a surname after it
+    gazetteer: config/first_names.txt
+    surname: true
+
+  - kind: address
+    suffixes: ["straße", "strasse", "str.", "weg", "allee", "platz", "ring", "gasse"]
+    prefixes: ["am ", "an der ", "im ", "auf dem "]  # "am markt 3": a place name without a street suffix

@@ -1,0 +1,60 @@
+# One Argo CD application per file in tenants/. Adding an authority is a merge request with one YAML
+# file; a release is a merge request that changes model.adapter in that file.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: sov-tenants
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+        revision: main
+        files:
+          - path: tenants/*.yaml
+  template:
+    metadata:
+      name: "sov-{{ .name }}"
+      labels:
+        sov/tenant: "{{ .name }}"
+      annotations:
+        notifications.argoproj.io/subscribe.on-sync-failed.email: "{{ .contact }}"
+    spec:
+      project: sov-tenants
+      source:
+        repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+        targetRevision: main
+        path: charts/sov-model
+        helm:
+          valueFiles:
+            - ../../deploy/values/platform.yaml
+          valuesObject:
+            tenant: "{{ .name }}"
+            model:
+              base: "{{ .model.base }}"
+              adapter: "{{ .model.adapter }}"
+            replicas: "{{ .serving.replicas }}"
+            resources:
+              cpu: "{{ .serving.cpu }}"
+              memory: "{{ .serving.memory }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "sov-{{ .name }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        managedNamespaceMetadata:
+          labels:
+            sov/tenant: "{{ .name }}"
+            pod-security.kubernetes.io/enforce: restricted
+        retry:
+          limit: 3
+          backoff:
+            duration: 10s
+            factor: 2

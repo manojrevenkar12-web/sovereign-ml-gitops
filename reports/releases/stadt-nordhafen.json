@@ -1,0 +1,74 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "candidate": "sha256:7b5d4967916501d8c5a026167cef64878d058287925044358a27b7fb781a8522",
+  "champion": null,
+  "commit": "local",
+  "data_digest": "sha256:dfcd408275e0e5c2f63bf149dd12973283cb554cee79fb55fbf47fe12d9df832",
+  "decision": {
+    "checks": [
+      {
+        "limit": 0.0,
+        "name": "training data pseudonymised",
+        "passed": true,
+        "reason": "training set still holds 0.0 personal-data finds per 1,000 inquiries",
+        "value": 0.0
+      },
+      {
+        "limit": -1.0,
+        "name": "not worse than champion",
+        "passed": true,
+        "reason": "accuracy vs champion could be +1.5 pts (limit -1.0)",
+        "value": 1.5
+      },
+      {
+        "limit": 0.85,
+        "name": "recall ordnungsamt",
+        "passed": true,
+        "reason": "ordnungsamt recall 98% is below the 85% floor",
+        "value": 0.9775280898876404
+      },
+      {
+        "limit": 25.0,
+        "name": "latency",
+        "passed": true,
+        "reason": "p95 latency 0.5 ms over 25.0 ms",
+        "value": 0.46226374997786474
+      },
+      {
+        "limit": 1200,
+        "name": "adapter size",
+        "passed": true,
+        "reason": "adapter is 516 kB, over 1200 kB",
+        "value": 515.505859375
+      }
+    ],
+    "promote": true,
+    "summary": "promote"
+  },
+  "metrics": {
+    "adapter_kb": 515.505859375,
+    "champion_val_accuracy": 0.8716666666666667,
+    "p95_ms": 0.46226374997786474,
+    "val_accuracy": 0.9116666666666666
+  },
+  "steps": [
+    {
+      "examples": 400,
+      "ok": true,
+      "step": "contract"
+    },
+    {
+      "ran": true,
+      "step": "pseudonymise"
+    },
+    {
+      "seconds": 2.7,
+      "step": "fine-tune"
+    },
+    {
+      "promote": true,
+      "step": "gate"
+    }
+  ],
+  "tenant": "stadt-nordhafen"
+}

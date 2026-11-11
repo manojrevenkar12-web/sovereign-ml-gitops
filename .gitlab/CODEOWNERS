@@ -1,0 +1,9 @@
+# GitLab code owners. See docs/team.md.
+/tenants/                    @sov/platform-oncall
+/charts/                     @sov/platform
+/deploy/argocd/              @sov/platform
+/infra/                      @sov/platform @sov/security
+/config/pii_rules.yaml       @sov/data-protection
+/config/first_names.txt      @sov/data-protection
+/config/platform.toml        @sov/ml-lead @sov/platform-lead
+/src/sov/ml/                 @sov/ml-lead

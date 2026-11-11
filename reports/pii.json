@@ -1,0 +1,441 @@
+{
+  "lines": 12000,
+  "methods": {
+    "none": {
+      "instances": 11644,
+      "caught": 0,
+      "leaked": 11644,
+      "recall": 0.0,
+      "found": 0,
+      "false_finds": 0,
+      "precision": 0.0,
+      "by_kind": {
+        "name": {
+          "instances": 2890,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "address": {
+          "instances": 397,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "iban": {
+          "instances": 1364,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "phone": {
+          "instances": 1093,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "email": {
+          "instances": 930,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "steuerid": {
+          "instances": 1289,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "dob": {
+          "instances": 1280,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "ip": {
+          "instances": 2401,
+          "caught": 0,
+          "recall": 0.0
+        }
+      }
+    },
+    "regex (email + IBAN)": {
+      "instances": 11644,
+      "caught": 1498,
+      "leaked": 10146,
+      "recall": 0.1286499484713157,
+      "found": 1498,
+      "false_finds": 0,
+      "precision": 1.0,
+      "by_kind": {
+        "name": {
+          "instances": 2890,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "address": {
+          "instances": 397,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "iban": {
+          "instances": 1364,
+          "caught": 1364,
+          "recall": 1.0
+        },
+        "phone": {
+          "instances": 1093,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "email": {
+          "instances": 930,
+          "caught": 134,
+          "recall": 0.14408602150537633
+        },
+        "steuerid": {
+          "instances": 1289,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "dob": {
+          "instances": 1280,
+          "caught": 0,
+          "recall": 0.0
+        },
+        "ip": {
+          "instances": 2401,
+          "caught": 0,
+          "recall": 0.0
+        }
+      }
+    },
+    "generated filter": {
+      "instances": 11644,
+      "caught": 11573,
+      "leaked": 71,
+      "recall": 0.9939024390243902,
+      "found": 11582,
+      "false_finds": 9,
+      "precision": 0.9992229321360733,
+      "by_kind": {
+        "name": {
+          "instances": 2890,
+          "caught": 2819,
+          "recall": 0.975432525951557
+        },
+        "address": {
+          "instances": 397,
+          "caught": 397,
+          "recall": 1.0
+        },
+        "iban": {
+          "instances": 1364,
+          "caught": 1364,
+          "recall": 1.0
+        },
+        "phone": {
+          "instances": 1093,
+          "caught": 1093,
+          "recall": 1.0
+        },
+        "email": {
+          "instances": 930,
+          "caught": 930,
+          "recall": 1.0
+        },
+        "steuerid": {
+          "instances": 1289,
+          "caught": 1289,
+          "recall": 1.0
+        },
+        "dob": {
+          "instances": 1280,
+          "caught": 1280,
+          "recall": 1.0
+        },
+        "ip": {
+          "instances": 2401,
+          "caught": 2401,
+          "recall": 1.0
+        }
+      }
+    }
+  },
+  "by_source": {
+    "app-json": {
+      "instances": 1683,
+      "caught": 1612,
+      "leaked": 71,
+      "recall": 0.9578134284016637,
+      "found": 1612,
+      "false_finds": 0,
+      "precision": 1.0,
+      "by_kind": {
+        "name": {
+          "instances": 507,
+          "caught": 436,
+          "recall": 0.8599605522682445
+        },
+        "address": {
+          "instances": 397,
+          "caught": 397,
+          "recall": 1.0
+        },
+        "iban": {
+          "instances": 138,
+          "caught": 138,
+          "recall": 1.0
+        },
+        "phone": {
+          "instances": 252,
+          "caught": 252,
+          "recall": 1.0
+        },
+        "email": {
+          "instances": 134,
+          "caught": 134,
+          "recall": 1.0
+        },
+        "steuerid": {
+          "instances": 132,
+          "caught": 132,
+          "recall": 1.0
+        },
+        "dob": {
+          "instances": 123,
+          "caught": 123,
+          "recall": 1.0
+        },
+        "ip": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        }
+      }
+    },
+    "audit": {
+      "instances": 0,
+      "caught": 0,
+      "leaked": 0,
+      "recall": 0.0,
+      "found": 9,
+      "false_finds": 9,
+      "precision": 0.0,
+      "by_kind": {
+        "name": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "address": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "iban": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "phone": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "email": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "steuerid": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "dob": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "ip": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        }
+      }
+    },
+    "form": {
+      "instances": 3471,
+      "caught": 3471,
+      "leaked": 0,
+      "recall": 1.0,
+      "found": 3471,
+      "false_finds": 0,
+      "precision": 1.0,
+      "by_kind": {
+        "name": {
+          "instances": 1157,
+          "caught": 1157,
+          "recall": 1.0
+        },
+        "address": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "iban": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "phone": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "email": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "steuerid": {
+          "instances": 1157,
+          "caught": 1157,
+          "recall": 1.0
+        },
+        "dob": {
+          "instances": 1157,
+          "caught": 1157,
+          "recall": 1.0
+        },
+        "ip": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        }
+      }
+    },
+    "ingress": {
+      "instances": 4038,
+      "caught": 4038,
+      "leaked": 0,
+      "recall": 1.0,
+      "found": 4038,
+      "false_finds": 0,
+      "precision": 1.0,
+      "by_kind": {
+        "name": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "address": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "iban": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "phone": {
+          "instances": 841,
+          "caught": 841,
+          "recall": 1.0
+        },
+        "email": {
+          "instances": 796,
+          "caught": 796,
+          "recall": 1.0
+        },
+        "steuerid": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "dob": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "ip": {
+          "instances": 2401,
+          "caught": 2401,
+          "recall": 1.0
+        }
+      }
+    },
+    "traceback": {
+      "instances": 2452,
+      "caught": 2452,
+      "leaked": 0,
+      "recall": 1.0,
+      "found": 2452,
+      "false_finds": 0,
+      "precision": 1.0,
+      "by_kind": {
+        "name": {
+          "instances": 1226,
+          "caught": 1226,
+          "recall": 1.0
+        },
+        "address": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "iban": {
+          "instances": 1226,
+          "caught": 1226,
+          "recall": 1.0
+        },
+        "phone": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "email": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "steuerid": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "dob": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        },
+        "ip": {
+          "instances": 0,
+          "caught": 0,
+          "recall": null
+        }
+      }
+    }
+  },
+  "training_data": {
+    "kreis-lindenau": {
+      "inquiries": 400,
+      "with_pii": 136,
+      "instances": 146,
+      "left": 5,
+      "left_per_1k_inquiries": 12.5,
+      "recall": 0.9657534246575342
+    },
+    "stadt-nordhafen": {
+      "inquiries": 400,
+      "with_pii": 132,
+      "instances": 143,
+      "left": 8,
+      "left_per_1k_inquiries": 20.0,
+      "recall": 0.9440559440559441
+    },
+    "stadt-weidenbach": {
+      "inquiries": 400,
+      "with_pii": 150,
+      "instances": 167,
+      "left": 6,
+      "left_per_1k_inquiries": 15.0,
+      "recall": 0.9640718562874252
+    }
+  }
+}

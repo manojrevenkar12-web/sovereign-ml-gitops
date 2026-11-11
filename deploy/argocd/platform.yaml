@@ -1,0 +1,60 @@
+# The shared platform, as Argo CD applications (app of apps). Upstream charts, values from this repository.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sov-loki
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: loki
+      targetRevision: 6.30.1
+      helm:
+        valueFiles: ["$values/deploy/observability/loki-values.yaml"]
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      ref: values
+  destination: {server: https://kubernetes.default.svc, namespace: observability}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true, ServerSideApply=true]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sov-fluent-bit
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://fluent.github.io/helm-charts
+      chart: fluent-bit
+      targetRevision: 0.49.0
+      helm:
+        valueFiles: ["$values/deploy/observability/fluent-bit-values.yaml"]
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      path: deploy/observability/fluent-bit-scripts      # ConfigMap with the generated redact.lua
+  destination: {server: https://kubernetes.default.svc, namespace: observability}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sov-grafana
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana
+      targetRevision: 9.2.10
+      helm:
+        valueFiles: ["$values/deploy/observability/grafana-values.yaml"]
+    - repoURL: https://github.com/manojrevenkar12-web/sovereign-ml-gitops.git
+      targetRevision: main
+      ref: values
+  destination: {server: https://kubernetes.default.svc, namespace: observability}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true]}

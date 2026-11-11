@@ -1,0 +1,10 @@
+{
+  "base": "sha256:2da3aa2f309df88a5c0f534b818baa1440a926bd48fec67578da46b8a208913b",
+  "bytes": 527878,
+  "commit": "local",
+  "data": "sha256:dfcd408275e0e5c2f63bf149dd12973283cb554cee79fb55fbf47fe12d9df832",
+  "digest": "sha256:7b5d4967916501d8c5a026167cef64878d058287925044358a27b7fb781a8522",
+  "examples": 400,
+  "kind": "adapter",
+  "tenant": "stadt-nordhafen"
+}

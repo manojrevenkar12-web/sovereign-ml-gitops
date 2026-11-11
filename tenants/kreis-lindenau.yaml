@@ -1,0 +1,25 @@
+# One file per authority. Onboarding an authority is one merge request adding a file like this one;
+# scripts/scaffold.py turns it into namespaces, network policies, Vault policies, a Keycloak realm, a
+# Loki tenant, a Grafana data source and an Argo CD application. Only the release step changes model.adapter.
+name: kreis-lindenau
+display_name: Landkreis Lindenau
+kind: Landkreis
+contact: it-betrieb@kreis-lindenau.example
+model:
+  base: null
+  adapter: null
+  critical: [ordnungsamt]       # departments whose recall the release gate holds to a floor
+serving:
+  replicas: 2
+  cpu: 250m
+  memory: 384Mi
+fine_tune:
+  where: on-prem                     # ionos: GPU pool on IONOS Cloud, allowed only for pseudonymised data
+logs:
+  retention_days: 30
+access:
+  groups:
+    - name: buergerservice
+      roles: [inquiry-router]
+    - name: fachaufsicht
+      roles: [inquiry-router, audit-reader]

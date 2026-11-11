@@ -1,0 +1,7 @@
+# Serving image only: no torch, no Lua. Pinned; Renovate opens merge requests for updates.
+numpy==2.5.3
+pyyaml==6.0.3
+fastapi==0.146.0
+uvicorn==0.53.0
+pyjwt[crypto]==2.14.0
+prometheus-client==0.26.0

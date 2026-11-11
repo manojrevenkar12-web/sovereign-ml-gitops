@@ -1,0 +1,28 @@
+{
+  "pinned": "2026-11-11",
+  "seed": 4711,
+  "note": "Pinned before the held-out run. heldout.py refuses to run if any of these files changed, or twice.",
+  "files": {
+    "config/platform.toml": "988f28218a910d5b63e17ea162025a5510011102b329a097fdf8c41a3f8c003b",
+    "config/pii_rules.yaml": "c885d6e197a30cbed6817a41efab27b76eb8f564ddf4d41769be77a8fd0fe1eb",
+    "config/first_names.txt": "2521f7c11a74605e1663f9d5ea8f98d8f935d9a30b1f7d92334cec3c2e665b61",
+    "src/sov/pii/engine.lua": "fb3917dd969e170342d5af9581a4751cdabd1e23fb71ed3135666b6f9e44b64c",
+    "deploy/fluent-bit/redact.lua": "8e92288f5decbd0eb8931d50806d6596afaaf32f212c91c9ae55b15f3d31fb78",
+    "src/sov/ml/train.py": "a518b4f2bba334338793fbafdf2116f12bf2844f6b9d8b9eb70f18eddd6472d5",
+    "src/sov/ml/model.py": "50aada7cacd0482e64513a029b01699cbd550e8e8563d32cda96466e2927dea4",
+    "src/sov/ml/features.py": "3f92b2befcaa87f40d0c5d23921d4f6da54ed124203cbe43ac37bb5f69d4903d",
+    "src/sov/ml/gate.py": "38cd53cc4cfda01755dba5ceb29d00dabf95448bb75d6b3863c47ffe1a0f2008",
+    "src/sov/ml/pipeline.py": "eae2c51b78e4018ccb72d4a6e104b04c878eba5a299cd6883b99df6090758a22"
+  },
+  "reformatted_after_run": {
+    "what": "ruff format rewrapped lines in these files after the held-out run; no statement changed",
+    "evidence": "scripts/publish.py --only stadt-weidenbach --dry-run reproduces the pinned adapter digest byte for byte",
+    "files_before": {
+      "src/sov/ml/train.py": "36760e4d28218bf27dff2f8c381a097ae58e9ae7b168f2ab91248c15454fada6",
+      "src/sov/ml/model.py": "0564d61ba5ba73f2adb9da83e46bada9f31f862e22f1c0bd394d3fdb7f3c3424",
+      "src/sov/ml/features.py": "d52da13f82496ab5a50c4f97b8f52c14a81c171bffbdfcc9bee6789e21e67493",
+      "src/sov/ml/gate.py": "73c32ac1c199ea77b0bc12c22b7fa0f854bc8094e26656d4cfee8124721fe390",
+      "src/sov/ml/pipeline.py": "836f85f86161285b139a590cd3aed53252693fa9b2334272d64518dd1988cf07"
+    }
+  }
+}
