@@ -31,7 +31,7 @@ pipeline:
     port: ${LOKI_PORT}
     tenant_id: kreis-lindenau
     remove_keys: sov_tenant
-    labels: job=fluent-bit
+    labels: job=sov
     line_format: json
   - name: loki
     match: sov.stadt-nordhafen
@@ -39,7 +39,7 @@ pipeline:
     port: ${LOKI_PORT}
     tenant_id: stadt-nordhafen
     remove_keys: sov_tenant
-    labels: job=fluent-bit
+    labels: job=sov
     line_format: json
   - name: loki
     match: sov.stadt-weidenbach
@@ -47,7 +47,7 @@ pipeline:
     port: ${LOKI_PORT}
     tenant_id: stadt-weidenbach
     remove_keys: sov_tenant
-    labels: job=fluent-bit
+    labels: job=sov
     line_format: json
   - name: loki
     match: sov.platform
@@ -55,7 +55,7 @@ pipeline:
     port: ${LOKI_PORT}
     tenant_id: platform
     remove_keys: sov_tenant
-    labels: job=fluent-bit
+    labels: job=sov
     line_format: json
   - name: stdout
     match: '*'

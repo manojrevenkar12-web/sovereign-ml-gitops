@@ -49,7 +49,7 @@ unready and serves nothing.
 ## Personal data in a service's logs
 
 The `pii_redactions` field in Loki counts how many values the filter replaced in a line.
-`sum by (container) (count_over_time({job="fluent-bit"} | json | pii_redactions > 0 [1h]))` names the
+`sum by (container) (count_over_time({job="sov"} | json | pii_redactions > 0 [1h]))` names the
 container that is logging personal data.
 
 The filter has already removed the values, but the service must stop logging them. Open an issue with the

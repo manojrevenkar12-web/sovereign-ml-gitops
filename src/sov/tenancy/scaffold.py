@@ -94,7 +94,7 @@ def fluent_bit_outputs(specs: dict[str, dict[str, Any]]) -> list[dict[str, Any]]
                 "port": "${LOKI_PORT}",
                 "tenant_id": name,
                 "remove_keys": "sov_tenant",
-                "labels": "job=fluent-bit",
+                "labels": "job=sov",
                 "line_format": "json",
             }
         )
